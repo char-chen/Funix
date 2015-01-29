@@ -73,7 +73,6 @@ Directory *createDirectory(const char *dirName, int time, int umask)
 	Directory *directory = (Directory*)malloc(sizeof(Directory));
 	directory->name = dirName;
 	directory->time = time;
-	//directory->permission = (Permissions)malloc(sizeof(Permissions)); 
 	createPermissions(&(directory->permission), umask);
 	directory->numberOfSubdirectories = 0;
 			
