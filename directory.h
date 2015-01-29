@@ -9,7 +9,6 @@ typedef struct Dir
 {
   const char* name;
  	int time;
-	struct Dir *(*pts)[];	//pointer to the array of subdirectories
   struct Dir *ptSub[MAX_SUBDIRECTORIES];
  	int numberOfSubdirectories;
  	struct Dir *parent;
@@ -20,11 +19,11 @@ typedef struct Dir
 
 Directory *createDirectory(const char *directoryName, int time, int umask);
 
-//char *showPath(Directory *currentDirectory, char *paths);
+int showPath(Directory *currentDirectory);
 
 void mkdir(Directory *currentDirectory, const char *name, int time, int umask);
 
 void ls(Directory *currentDirectory, int l);
 
-void cd(Directory *currentDirectory, const char *directoryToEnter);
+void cd(Directory **current, const char *directoryToEnter);
 #endif	

@@ -89,8 +89,9 @@ int processCommand(Funix *funix, char *command)
 
 void writePrompt(Funix *funix)
 {
-	//const char *result = funix->currentDirectory->name;
-	//printf("%s # ", showPath(funix->currentDirectory, result));	
+	Directory *restore = funix->currentDirectory;
+	showPath(funix->currentDirectory);
+	funix->currentDirectory = restore;	
 	printf("/ # ");
 }
 
@@ -117,7 +118,7 @@ void cd(Funix *funix, int argCount, const char *arguments[])
 	}
 	else	//should have only 2 arguments at this point
 	{
-		cd(funix->currentDirectory, arguments[1]);		
+		cd(&(funix->currentDirectory), arguments[1]);		
 	}	
 }
 

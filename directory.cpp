@@ -4,17 +4,18 @@
 #include <ctype.h>
 #include "directory.h"
 
-/*char *showPath(Directory *currentDir, char *path) 
+int showPath(Directory *currentDir) 
 {
-	if(currentDir->parent != NULL)
+	if(currentDir->parent == NULL)
 	{ 
-		path = strcat(currentDir->parent->name, strcat(path, "/"));
-		showPath(currentDir->parent, path);
+		return 0;
 	}
-	
-	return path;
+	const char *print = currentDir->name;
+	currentDir = currentDir->parent;
+	showPath(currentDir);
+	printf("/%s", print);
+	return 0;
 }	
-*/
 
 void ls(Directory *currentDir, int l)
 {
@@ -38,21 +39,24 @@ void ls(Directory *currentDir, int l)
 	}	
 }
 
-void cd(Directory *currentDir, const char *directory )
+void cd(Directory **currentDir, const char *directory )
 {
 	if(strcmp(directory, "..") == 0) //Parent directory. Regardless whether if ".." exists
 	{
-		currentDir = currentDir->parent;	
+		if((*currentDir)->parent != NULL)
+		{
+			*currentDir = (*currentDir)->parent;	
+		}
 	}	
 	else 
 	{
 		int exists = 0;
 		int i;
-		for(i = 0; i < currentDir->numberOfSubdirectories; i++)
+		for(i = 0; i < (*currentDir)->numberOfSubdirectories; i++)
 		{
-			if(strcmp(currentDir->ptSub[i]->name, directory) == 0)
+			if(strcmp((*currentDir)->ptSub[i]->name, directory) == 0)
 			{
-				currentDir = currentDir->ptSub[i]; //successfully changed directory
+				(*currentDir) = (*currentDir)->ptSub[i]; //successfully changed directory
 				exists = 1;
 				break;
 			}
